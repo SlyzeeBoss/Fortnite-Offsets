@@ -1,4 +1,11 @@
-offsets.hnamespace offsets {
+#pragma once
+#include <cstdint>
+#include <algorithm>
+
+
+// Current Patch: v40.10
+
+namespace offsets {
     // Base pointers
     inline uintptr_t UWorld = 0x1895DE60;
     inline uintptr_t OwningGameInstance = 0x250;
@@ -64,7 +71,9 @@ offsets.hnamespace offsets {
     inline uintptr_t VehicleGravity = 0;
     inline uintptr_t VehicleActive = 0;
 
-    inline std::string LastUpdate = "Unknown";
-    bool Initialize();
-    uintptr_t ParseFromRaw(const std::string& content, const std::string& varName);
+    inline uint64_t DecryptUworld(uint64_t world)
+    {
+        if (!world) return 0;
+        return ~_rotl64(world ^ 0xCF76574CULL, 48); // Updated
+    }
 }
